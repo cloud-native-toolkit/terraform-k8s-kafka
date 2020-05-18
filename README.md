@@ -44,4 +44,3 @@ module "dev_infra_kafka" {
   name                = "kafka"
 }
 ```
-

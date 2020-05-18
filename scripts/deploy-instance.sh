@@ -1,3 +1,4 @@
+#!/bin/bash
 
 CLUSTER_TYPE="$1"
 NAMESPACE="$2"
@@ -61,19 +62,31 @@ EOL
 
 kubectl apply -f ${YAML_FILE} -n "${NAMESPACE}" || exit 1
 
-RESOURCE="statefulset/${NAME}-kafka"
+KAFKA_RESOURCE="statefulset/${NAME}-kafka"
+ZOOKEEPER_RESOURCE="statefulset/${NAME}-zookeeper"
 
 count=0
-until kubectl get ${RESOURCE} -n "${NAMESPACE}" 1> /dev/null 2> /dev/null; do
+until kubectl get ${KAFKA_RESOURCE} -n "${NAMESPACE}" 1> /dev/null 2> /dev/null; do
   if [[ ${count} -eq 12 ]]; then
-    echo "Timed out waiting for ${RESOURCE} to start"
+    echo "Timed out waiting for ${KAFKA_RESOURCE} rollout to start"
     exit 1
   else
     count=$((count + 1))
   fi
 
-  echo "Waiting for ${RESOURCE} to start"
-  sleep 10
+  echo "Waiting for ${KAFKA_RESOURCE} rollout to start"
+  sleep 30
 done
 
-kubectl rollout status ${RESOURCE} -n "${NAMESPACE}"
+count=0
+until kubectl get ${ZOOKEEPER_RESOURCE} -n "${NAMESPACE}" 1> /dev/null 2> /dev/null; do
+  if [[ ${count} -eq 12 ]]; then
+    echo "Timed out waiting for ${ZOOKEEPER_RESOURCE} rollout to start"
+    exit 1
+  else
+    count=$((count + 1))
+  fi
+
+  echo "Waiting for ${ZOOKEEPER_RESOURCE} rollout to start"
+  sleep 30
+done
