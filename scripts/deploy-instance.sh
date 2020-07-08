@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CLUSTER_TYPE="$1"
 NAMESPACE="$2"
