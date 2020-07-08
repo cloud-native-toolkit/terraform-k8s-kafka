@@ -45,6 +45,13 @@ spec:
         configuration:
           bootstrap:
             host: ${HOST}
+          brokers:
+          - broker: 0
+            host: broker-0-${NAMESPACE}.${INGRESS_SUBDOMAIN}
+          - broker: 1
+            host: broker-1-${NAMESPACE}.${INGRESS_SUBDOMAIN}
+          - broker: 2
+            host: broker-2-${NAMESPACE}.${INGRESS_SUBDOMAIN}
         type: ${TYPE}
       plain: {}
       tls: {}
