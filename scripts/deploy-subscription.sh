@@ -82,3 +82,6 @@ until [[ $(kubectl get csv -n "${OPERATOR_NAMESPACE}" "${CSV_NAME}" -o jsonpath=
   echo "Waiting for Kafka CSV to be successfully installed in ${OPERATOR_NAMESPACE}"
   sleep 15
 done
+
+echo "Kafka CSV started successfully"
+kubectl get csv -n "${OPERATOR_NAMESPACE}" "${CSV_NAME}"
