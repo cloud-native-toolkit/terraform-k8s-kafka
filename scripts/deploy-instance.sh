@@ -41,6 +41,9 @@ spec:
       external:
         authentication:
           type: tls
+        configuration:
+          bootstrap:
+            host: ${HOST}
         type: ${TYPE}
       plain: {}
       tls: {}
