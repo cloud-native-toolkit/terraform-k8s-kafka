@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$(cd $(dirname $0); pwd -P)
+SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
+
+export KUBECONFIG="${SCRIPT_DIR}/.kube/config"
 
 CLUSTER_TYPE="$1"
 NAMESPACE="$2"

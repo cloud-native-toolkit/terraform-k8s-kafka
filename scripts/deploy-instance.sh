@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CLUSTER_TYPE="$1"
 NAMESPACE="$2"
@@ -19,8 +19,9 @@ if [[ -z "${TMP_DIR}" ]]; then
 fi
 mkdir -p "${TMP_DIR}"
 
+HOST="${NAME}-${NAMESPACE}.${INGRESS_SUBDOMAIN}"
+
 if [[ "${CLUSTER_TYPE}" == "kubernetes" ]]; then
-  HOST="${NAME}-${NAMESPACE}.${INGRESS_SUBDOMAIN}"
   TYPE="ingress"
 else
   TYPE="route"
@@ -41,6 +42,16 @@ spec:
       external:
         authentication:
           type: tls
+        configuration:
+          bootstrap:
+            host: ${HOST}
+          brokers:
+          - broker: 0
+            host: broker-0-${NAMESPACE}.${INGRESS_SUBDOMAIN}
+          - broker: 1
+            host: broker-1-${NAMESPACE}.${INGRESS_SUBDOMAIN}
+          - broker: 2
+            host: broker-2-${NAMESPACE}.${INGRESS_SUBDOMAIN}
         type: ${TYPE}
       plain: {}
       tls: {}
